@@ -30,11 +30,12 @@ namespace LAB4OP
         }
 
         static string imagePath = @"C:\Users\Nikita Pedorenko\Desktop\image.bmp";
-        static string bmpPath = "bmp10a.bmp";
+        static string bmpPath = "bmp2x2.bmp";
         static void Main(string[] args)
         {
-      //      ShowAllBytes(bmpPath);
+            //ShowAllBytes(bmpPath);
             Image image = new Image(bmpPath);
+            List<Pixel> pixels = image.Enlarge(3);
             Console.ReadLine();
         }
     }
