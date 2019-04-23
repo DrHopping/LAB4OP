@@ -11,12 +11,7 @@ namespace LAB4OP
     {
         static void Menu(string outputPath, int multiplier)
         {
-            Console.Write($"Enlarging image {multiplier} times");
-            for (int i = 0; i < 3; i++)
-            {
-                Console.Write(".");
-                System.Threading.Thread.Sleep(10);
-            }
+            Console.Write($"Enlarging image {multiplier} times...");
             Console.WriteLine("  Done.");
             Console.WriteLine($"Written result to {outputPath}");
 
