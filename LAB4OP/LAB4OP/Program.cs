@@ -15,7 +15,8 @@ namespace LAB4OP
             string outputPath = args[1];
             int multiplier = int.Parse(args[2]);
             Console.Write($"Enlarging image {multiplier} times...");
-            ImageEnlarger.Enlarge(multiplier,(ImageReader.Read(inputPath))).SaveTo(outputPath);
+            ImageEnlarger.Enlarge(multiplier, (ImageReader.Read(inputPath)));
+            
             Console.WriteLine("  Done.");
             Console.WriteLine($"Written result to {outputPath}");
         }

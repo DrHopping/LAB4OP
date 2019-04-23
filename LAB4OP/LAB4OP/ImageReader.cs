@@ -30,5 +30,21 @@ namespace LAB4OP
             }
             return pixels;
         }
+
+        static public void SaveTo(Image image,string path)
+        {
+            int skipAmount = ((3 * image.Width) % 4 == 0) ? 0 : ((4 - (3 * image.Width) % 4));
+            using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+            {
+                bw.Write(image.info);
+                for (int i = 0; i < image.Pixels.Count; i++)
+                {
+                    if (i % image.Width == 0 && i != 0)
+                        bw.Write(new byte[skipAmount]);
+                    bw.Write(image.Pixels[i].ToArray());
+                }
+                bw.Write(new byte[2]);
+            }
+        }
     }
 }

@@ -24,20 +24,5 @@ namespace LAB4OP
             this.Pixels = pixels;
         }
 
-        public void SaveTo(string path)
-        {
-            int skipAmount = ((3 * this.Width) % 4 == 0) ? 0 : ((4 - (3 * this.Width) % 4));
-            using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
-            {
-                bw.Write(this.info);
-                for (int i = 0; i < Pixels.Count; i++)
-                {
-                    if (i % this.Width == 0 && i != 0)
-                        bw.Write(new byte[skipAmount]);
-                    bw.Write(Pixels[i].ToArray());
-                }
-                bw.Write(new byte[2]);
-            }
-        }
     }
 }
