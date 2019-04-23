@@ -26,6 +26,8 @@ namespace LAB4OP
             return pixels;
         }
 
+        public Image() { }
+
         public Image(string path)
         {
             using (BinaryReader br = new BinaryReader(File.Open(path, FileMode.Open)))
@@ -38,23 +40,7 @@ namespace LAB4OP
             }
         }
 
-
-
-        //public Pixel[] Enlarge(int count)
-        //{
-        //    Pixel[] newPixels = new Pixel[this.Pixels.Length * count * count];
-        //    for (int i = 0; i < this.Pixels.Length; i++)
-        //    {
-        //        for (int j = 0; j < count; j++)
-        //        {
-        //            newPixels[(int)(i/this.Width) * this.Width * count + i * count + j] = this.Pixels[i];
-        //            newPixels[(int)(i / this.Width) * this.Width * count + i * count + this.Width * count + j] = this.Pixels[i];
-        //        }
-        //    }
-        //    return newPixels;
-        //}
-
-        public List<Pixel> Enlarge(int count)
+        private List<Pixel> MultiplyPixels(int multiplier)
         {
             List<Pixel> newPixels = new List<Pixel>();
 
@@ -64,13 +50,13 @@ namespace LAB4OP
 
                 for (int j = 0; j < this.Width; j++)
                 {
-                    for (int k = 0; k < count; k++)
+                    for (int k = 0; k < multiplier; k++)
                     {
                         temp.Add(Pixels[j + i * this.Width]);
                     }
                 }
 
-                for (int n = 0; n < count; n++)
+                for (int n = 0; n < multiplier; n++)
                 {
                     newPixels.AddRange(temp);
                 }
@@ -78,6 +64,40 @@ namespace LAB4OP
             }
 
             return newPixels;
+        }
+
+        public Image Enlarge(int multiplier)
+        {
+            Image enlarged = new Image();
+            enlarged.Height = this.Height * multiplier;
+            enlarged.Width = this.Width * multiplier;
+            enlarged.FileSize = 54 + enlarged.Height * enlarged.Width * 3 + (((3 * enlarged.Width) % 4 == 0) ? 0 : ((4 - (3 * enlarged.Width) % 4) * enlarged.Width)) + 2;
+            enlarged.info = this.info;
+
+            int width = enlarged.Width;
+            for (int i = 18; i < 22; i++)
+            {
+                enlarged.info[i] = (byte)(width & 0xFF);
+                width >>= 8;
+            }
+
+            int height = enlarged.Height;
+            for (int i = 22; i < 26; i++)
+            {
+                enlarged.info[i] = (byte)(height & 0xFF);
+                height >>= 8;
+            }
+
+            int size = enlarged.FileSize;
+            for (int i = 2; i < 6; i++)
+            {
+                enlarged.info[i] = (byte)(size & 0xFF);
+                size >>= 8;
+            }
+
+            enlarged.Pixels = this.MultiplyPixels(multiplier);
+
+            return enlarged;
         }
 
         public void SaveTo(string path)
@@ -92,6 +112,7 @@ namespace LAB4OP
                         bw.Write(new byte[skipAmount]);
                     bw.Write(Pixels[i].ToArray());
                 }
+                bw.Write(new byte[2]);
             }
         }
     }

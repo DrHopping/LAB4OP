@@ -22,7 +22,7 @@
 
         public byte[] ToArray()
         {
-            return new byte[] { this.R, this.G, this.B };
+            return new byte[] { this.B, this.G, this.R };
         }
     }
 }
