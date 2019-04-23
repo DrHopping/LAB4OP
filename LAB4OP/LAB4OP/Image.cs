@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LAB4OP
@@ -15,10 +16,11 @@ namespace LAB4OP
         private List<Pixel> GetPixels(BinaryReader br)
         {
             List<Pixel> pixels = new List<Pixel>();
+            int skipAmount = ((3 * this.Width) % 4 == 0) ? 0 : ((4 - (3 * this.Width) % 4));
             for (int i = 0; i < this.Width * this.Height; i++)
             {
                 if (i % this.Width == 0 && i != 0)
-                    br.ReadBytes(2);
+                    br.ReadBytes(skipAmount);
                 pixels.Add(new Pixel(br.ReadBytes(3)));
             }
             return pixels;
@@ -35,6 +37,8 @@ namespace LAB4OP
                 this.Pixels = GetPixels(br);
             }
         }
+
+
 
         //public Pixel[] Enlarge(int count)
         //{
@@ -74,6 +78,21 @@ namespace LAB4OP
             }
 
             return newPixels;
+        }
+
+        public void SaveTo(string path)
+        {
+            int skipAmount = ((3 * this.Width) % 4 == 0) ? 0 : ((4 - (3 * this.Width) % 4));
+            using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+            {
+                bw.Write(this.info);
+                for (int i = 0; i < Pixels.Count; i++)
+                {
+                    if (i % this.Width == 0 && i != 0)
+                        bw.Write(new byte[skipAmount]);
+                    bw.Write(Pixels[i].ToArray());
+                }
+            }
         }
     }
 }
