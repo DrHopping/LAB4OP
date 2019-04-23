@@ -7,7 +7,7 @@
     <ProjectGuid>{BCDDE90E-EC45-4A92-A48B-DAA330F26A5E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>LAB4OP</RootNamespace>
-    <AssemblyName>LAB4OP</AssemblyName>
+    <AssemblyName>rezize</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
