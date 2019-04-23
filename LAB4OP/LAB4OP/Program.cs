@@ -29,7 +29,6 @@ namespace LAB4OP
             int multiplier = int.Parse(args[2]);
             Menu(outputPath, multiplier);
             (new Image(inputPath)).Enlarge(multiplier).SaveTo(outputPath);
-            
         }
     }
 }
