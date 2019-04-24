@@ -13,11 +13,15 @@ namespace LAB4OP
         {
             string inputPath = args[0];
             string outputPath = args[1];
-            int multiplier = int.Parse(args[2]);
+            double multiplier = double.Parse(args[2]);
             Console.Write($"Enlarging image {multiplier} times...");
-            ImageReader.SaveTo(ImageEnlarger.Enlarge(multiplier, (ImageReader.Read(inputPath))),outputPath);
+            Image im = ImageEnlargerX.Enlarge(multiplier,ImageReader.Read(inputPath));
+            ImageReader.SaveTo(im, outputPath);
             Console.WriteLine("  Done.");
             Console.WriteLine($"Written result to {outputPath}");
+
+
+            Console.ReadLine();
         }
     }
 }

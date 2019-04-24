@@ -18,15 +18,17 @@ namespace LAB4OP
             }
         }
 
-        private static List<Pixel> GetPixels(BinaryReader br, int width, int height)
+        private static Pixel[,] GetPixels(BinaryReader br, int width, int height)
         {
-            List<Pixel> pixels = new List<Pixel>();
+            Pixel[,] pixels = new Pixel[height,width];
             int skipAmount = ((3 * width) % 4 == 0) ? 0 : ((4 - (3 * width) % 4));
-            for (int i = 0; i < width * height; i++)
+            for (int i = 0; i < height; i++)
             {
-                if (i % width == 0 && i != 0)
-                    br.ReadBytes(skipAmount);
-                pixels.Add(new Pixel(br.ReadBytes(3)));
+                for (int j = 0; j < width; j++)
+                {
+                    pixels[i,j] = new Pixel(br.ReadBytes(3));
+                }
+                br.ReadBytes(skipAmount);
             }
             return pixels;
         }
@@ -37,11 +39,13 @@ namespace LAB4OP
             using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
             {
                 bw.Write(image.info);
-                for (int i = 0; i < image.Pixels.Count; i++)
+                for (int i = 0; i < image.Height; i++)
                 {
-                    if (i % image.Width == 0 && i != 0)
-                        bw.Write(new byte[skipAmount]);
-                    bw.Write(image.Pixels[i].ToArray());
+                    for (int j = 0; j < image.Width; j++)
+                    {
+                        bw.Write(image.Pixels[i,j].ToArray());
+                    }
+                    bw.Write(new byte[skipAmount]);
                 }
                 bw.Write(new byte[2]);
             }

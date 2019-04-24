@@ -4,35 +4,39 @@ namespace LAB4OP
 {
     class ImageEnlarger
     {
-        static private List<Pixel> MultiplyPixels(Image image,int multiplier)
+      
+        static private Image ScaleImage(Image image, int multiplier)
         {
-            List<Pixel> newPixels = new List<Pixel>();
-
-            for (int row = 0; row < image.Height; row++)
+            int height = image.Height;
+            int width = image.Width;
+            Image newImage = new Image(width * multiplier, height * multiplier);
+            for (int i = 0; i < height; i++)
             {
-                List<Pixel> temp = new List<Pixel>();
-
-                for (int element = 0; element < image.Width; element++)
+                for (int j = 0; j < width; j++)
                 {
-                    for (int copy = 0; copy < multiplier; copy++)
-                    {
-                        temp.Add(image.Pixels[element + row * image.Width]);
-                    }
-                }
-
-                for (int paste = 0; paste < multiplier; paste++)
-                {
-                    newPixels.AddRange(temp);
+                    Pixel p = image.GetPixelAt(j, i);
+                    SetScaledPixel(newImage, j, i, p, multiplier);
                 }
             }
-            return newPixels;
+            return newImage;
+        }
+
+        static private void SetScaledPixel(Image image, int row, int column, Pixel p, int multiplier)
+        {
+            for (int i = row * multiplier; i < (row + 1) * multiplier; i++)
+            {
+                for (int j = column * multiplier; j < (column + 1) * multiplier; j++)
+                {
+                    image.SetPixel(i, j, p);
+                }
+            }
         }
 
         public static Image Enlarge(int multiplier, Image image)
         {
             Image enlarged = new Image();
-            enlarged.Height = image.Height * multiplier;
-            enlarged.Width = image.Width * multiplier;
+            enlarged.Height = (int)(image.Height * multiplier);
+            enlarged.Width = (int)(image.Width * multiplier);
             enlarged.FileSize = 54 + enlarged.Height * enlarged.Width * 3 + (((3 * enlarged.Width) % 4 == 0) ? 0 : ((4 - (3 * enlarged.Width) % 4) * enlarged.Width)) + 2;
             enlarged.info = image.info;
 
@@ -57,7 +61,7 @@ namespace LAB4OP
                 size >>= 8;
             }
 
-            enlarged.Pixels = MultiplyPixels(image,multiplier);
+            enlarged.Pixels = ScaleImage(image, multiplier).Pixels;
 
             return enlarged;
         }

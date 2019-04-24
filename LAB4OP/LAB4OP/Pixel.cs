@@ -24,5 +24,10 @@
         {
             return new byte[] { this.B, this.G, this.R };
         }
+
+        public static Pixel operator +(Pixel p1, Pixel p2)
+        {
+            return new Pixel((byte)((p1.R + p2.R) / 2), (byte)((p1.G + p2.G) / 2), (byte)((p1.B + p2.B) / 2));
+        }
     }
 }
