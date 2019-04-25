@@ -11,9 +11,9 @@ namespace LAB4OP
     {
         static void Main(string[] args)
         {
-            string inputPath = "TRU256.bmp";
-            string outputPath = "Test.bmp";
-            double multiplier = double.Parse("5");
+            string inputPath = args[0];
+            string outputPath = args[1];
+            double multiplier = double.Parse(args[2]);
             Console.Write($"Enlarging image {multiplier} times...");
             Image im = ImageEnlargerX.Enlarge(multiplier,ImageReader.Read(inputPath));
             ImageReader.SaveTo(im, outputPath);
