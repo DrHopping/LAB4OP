@@ -7,7 +7,7 @@ namespace LAB4OP
         static public Image ScaleImage(Image image, double multiplier)
         {
             int width = image.Width;
-            int height = image.Width;
+            int height = image.Height;
             int multipliedWidth = (int)(width * multiplier);
             int multipliedHeight = (int)(height * multiplier);
             Image newImage = new Image(multipliedWidth, multipliedHeight);
